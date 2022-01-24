@@ -1,4 +1,7 @@
- #include <stdio.h>
+ 
+/*  file transfer->text,audio,video using udp(user datagram protocol) protocol */
+ 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -21,11 +24,12 @@ int main() {
 	memset(&servaddr, 0, sizeof(servaddr));
 
 	bzero(&servaddr,sizeof(servaddr));
+	
 	// Filling server information
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(8000);
 	servaddr.sin_addr.s_addr = INADDR_ANY;
-// servaddr.sin_addr.s_addr=inet_addr("10.10.10.73");
+
 	int choice = 1;
 	
 	while(choice!=4)
@@ -51,6 +55,7 @@ int main() {
      				{
     	 				printf("Reading file contents.\n");
      					fseek(fp,0,SEEK_END);
+
        					size_t file_size=ftell(fp);
        					fseek(fp,0,SEEK_SET);
       					if(fread(file_buffer,file_size,1,fp)<=0)
@@ -79,6 +84,7 @@ int main() {
     			case 2:
     				printf("Enter audio file name to send : \n");
     				scanf("%s",afileName);
+
     				sendto(fd, afileName, strlen(afileName), 0,(struct sockaddr *)&servaddr, sizeof(struct sockaddr));
 				FILE *afp;
 				afp=fopen(afileName,"r");
@@ -107,7 +113,7 @@ int main() {
 	    			}
 	    			else
 	    			{
-	    	 			printf("FILE SENT\n");
+	    	 			printf("File sent successfully\n");
 	    			}
 				fclose(afp);
 				break;
@@ -141,7 +147,7 @@ int main() {
 				}
 				else
 				{
-	 				printf("FILE has been succesfully sent\n");
+	 				printf("File has been succesfully sent\n");
 				}
 				fclose(vfp);
 				break;
