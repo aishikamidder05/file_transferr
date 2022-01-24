@@ -3,12 +3,15 @@
 #include<unistd.h>
 #include<sys/socket.h>
 #include<arpa/inet.h>
+
 #include<fcntl.h>
 #include<sys/types.h>
 #include<string.h>
 #include<stdlib.h>
 #define maxlen 70000
 #define mlen 100000
+
+
 int main()
 {
   char fileName[100];
@@ -16,6 +19,7 @@ int main()
   char *vfilep;
   int aufile[700000],vfile[mlen];
   int sd,connfd,len;
+
 
 for(int i=0;i<=100;i++){
 	fileName[i]='\0';
@@ -26,12 +30,12 @@ for(int i=0;i<=100;i++){
 
   if(sd==-1)
     {
-      printf(" socket not created in server\n");
+      printf(" Socket not created in server\n");
       exit(0);
     }
   else
     {
-      printf("socket succesfully created in the server\n");
+      printf("Socket succesfully created in the server\n");
     }
 
   bzero(&servaddr, sizeof(servaddr));
@@ -62,11 +66,14 @@ for(int i=0;i<=100;i++){
 	{
 		case 1:
 			recvfrom(sd,fileName,1024,0,(struct sockaddr *)&cliaddr, &len);
+
   			printf("Name of the text file received : %s\n",fileName);
 			FILE *fp;
+
   	 		printf("Contents in the received text file : \n");
   	 		recvfrom(sd,filebuffer,1024,0,(struct sockaddr *)&cliaddr, &len);
   	 		printf("%s\n",filebuffer);
+			   
   			int fsize=strlen(filebuffer);
 			fp=fopen(fileName,"w");
   			if(fp)
